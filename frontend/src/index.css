@@ -1,0 +1,242 @@
+:root {
+  --primary: #FF3366; /* 인스타 감성의 핑크/레드 톤 */
+  --bg-color: #f3f4f6;
+  --text-main: #1f2937;
+  --text-muted: #6b7280;
+  --surface-color: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 -8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  overflow: hidden; 
+}
+
+.app-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-container {
+  flex: 1;
+  background-color: #e5e7eb;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* 상단 검색 바 */
+.search-container {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.search-box {
+  display: flex;
+  gap: 8px;
+}
+
+.search-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  border-radius: 100px;
+  padding: 16px 24px;
+  font-size: 1.05rem;
+  outline: none;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px rgba(255, 51, 102, 0.2);
+}
+
+.search-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 100px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(255, 51, 102, 0.3);
+  transition: transform 0.1s;
+}
+
+.search-btn:active {
+  transform: scale(0.95);
+}
+
+/* 추천 태그 */
+.tags {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.tags::-webkit-scrollbar {
+  display: none;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.tag:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* 바텀 시트 */
+.bottom-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--surface-color);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-top: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  padding: 24px 24px 40px 24px;
+  transform: translateY(110%);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 10;
+}
+
+.bottom-sheet.open {
+  transform: translateY(0);
+}
+
+.handle {
+  width: 48px;
+  height: 5px;
+  background-color: #d1d5db;
+  border-radius: 4px;
+  margin: 0 auto 16px auto;
+}
+
+.chip {
+  display: inline-block;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.insta-quote {
+  background: linear-gradient(to right, rgba(255,51,102,0.05), rgba(255,51,102,0));
+  border-left: 4px solid var(--primary);
+  padding: 12px 16px;
+  border-radius: 0 12px 12px 0;
+  font-style: italic;
+  color: #374151;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+/* 지도 핀 */
+.pin-wrapper {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  cursor: pointer;
+  transition: transform 0.2s;
+  z-index: 5;
+}
+.pin-wrapper:hover, .pin-wrapper.active {
+  transform: translate(-50%, -110%) scale(1.1);
+  z-index: 10;
+}
+
+.mock-pin {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(45deg, #FF3366, #ff7b00);
+  border-radius: 50% 50% 50% 0;
+  border: 3px solid white;
+  box-shadow: 0 6px 12px rgba(255, 51, 102, 0.4);
+  transform-origin: bottom right;
+  animation: dropPin 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) backwards;
+}
+
+.pin-label {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.pin-wrapper:hover .pin-label, .pin-wrapper.active .pin-label {
+  opacity: 1;
+}
+
+@keyframes dropPin {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.2rem;
+}

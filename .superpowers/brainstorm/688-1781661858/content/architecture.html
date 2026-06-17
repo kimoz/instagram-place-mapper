@@ -1,0 +1,86 @@
+<h2>아키텍처 방향 선택</h2>
+<p class="subtitle">두 가지 현실적인 접근법 — MVP 속도 vs 장기 유연성</p>
+
+<div class="options">
+
+  <div class="option" data-choice="A" onclick="toggleSelect(this)">
+    <div class="letter" style="background:#6366f1;">A</div>
+    <div class="content">
+      <h3>Supabase 중심 (추천) <span style="font-size:0.8rem;color:#6366f1;">MVP 최적</span></h3>
+
+      <div style="background:#f8fafc;border-radius:8px;padding:1rem;margin:0.8rem 0;font-size:0.82rem;font-family:monospace;line-height:2;">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="background:#fef3c7;padding:2px 8px;border-radius:4px;">📱 Expo 앱</span>
+          <span style="color:#9ca3af;">──────────────────────</span>
+          <span style="background:#e0e7ff;padding:2px 8px;border-radius:4px;">🗄️ Supabase</span>
+        </div>
+        <div style="color:#9ca3af;font-size:0.75rem;margin-left:0;padding-left:0.5rem;">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└ DB (PostgreSQL)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└ Auth (소셜 로그인)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└ Storage (이미지)
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-top:0.3rem;">
+          <span style="background:#d1fae5;padding:2px 8px;border-radius:4px;">⚙️ FastAPI</span>
+          <span style="color:#9ca3af;">──────────────────────</span>
+          <span style="background:#fce7f3;padding:2px 8px;border-radius:4px;">🤖 크롤러</span>
+        </div>
+        <div style="color:#9ca3af;font-size:0.75rem;padding-left:0.5rem;">
+          &nbsp;&nbsp;(검색/필터 API만)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;주 2~3회 GitHub Actions
+        </div>
+      </div>
+
+      <ul style="color:#6b7280;font-size:0.88rem;margin:0.5rem 0;padding-left:1.2rem;line-height:1.9;">
+        <li>Auth, DB, 실시간 구독 → Supabase가 다 처리</li>
+        <li>FastAPI는 검색/크롤링 로직만 담당</li>
+        <li>크롤러는 GitHub Actions로 무료 스케줄링</li>
+        <li>소셜 로그인(카카오·구글) 바로 연동 가능</li>
+      </ul>
+
+      <div class="pros-cons" style="margin-top:0.5rem;">
+        <div class="pros"><h4>장점</h4><ul><li>가장 빠르게 출시</li><li>월 비용 최소 (Supabase 무료 티어)</li><li>인증 직접 구현 불필요</li></ul></div>
+        <div class="cons"><h4>단점</h4><ul><li>Supabase 의존성</li><li>트래픽 급증 시 비용 발생</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="B" onclick="toggleSelect(this)">
+    <div class="letter" style="background:#0ea5e9;">B</div>
+    <div class="content">
+      <h3>FastAPI 풀스택 확장 <span style="font-size:0.8rem;color:#0ea5e9;">현재 코드 베이스 유지</span></h3>
+
+      <div style="background:#f8fafc;border-radius:8px;padding:1rem;margin:0.8rem 0;font-size:0.82rem;font-family:monospace;line-height:2;">
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="background:#fef3c7;padding:2px 8px;border-radius:4px;">📱 Expo 앱</span>
+          <span style="color:#9ca3af;">──────────────────────</span>
+          <span style="background:#d1fae5;padding:2px 8px;border-radius:4px;">⚙️ FastAPI</span>
+        </div>
+        <div style="color:#9ca3af;font-size:0.75rem;padding-left:0.5rem;">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└ JWT 인증 직접 구현<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└ PostgreSQL (Railway)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└ APScheduler (크롤러 내장)
+        </div>
+      </div>
+
+      <ul style="color:#6b7280;font-size:0.88rem;margin:0.5rem 0;padding-left:1.2rem;line-height:1.9;">
+        <li>현재 FastAPI 코드 그대로 확장</li>
+        <li>SQLite → PostgreSQL만 교체</li>
+        <li>크롤러를 백엔드 안에서 스케줄 실행</li>
+        <li>JWT 인증 직접 구현 필요</li>
+      </ul>
+
+      <div class="pros-cons" style="margin-top:0.5rem;">
+        <div class="pros"><h4>장점</h4><ul><li>외부 의존성 최소</li><li>코드 전체 컨트롤 가능</li></ul></div>
+        <div class="cons"><h4>단점</h4><ul><li>인증 직접 구현 (1~2주 추가)</li><li>서버 관리 부담 증가</li><li>소셜 로그인 연동이 복잡</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:1.5rem;padding:1rem;background:#eff6ff;border-radius:8px;border:1px solid #bfdbfe;">
+  <p style="margin:0;font-size:0.9rem;color:#1d4ed8;">
+    <strong>추천: A</strong> — 인증·DB·스토리지를 Supabase에 맡기면 핵심인 크롤링 파이프라인과 앱 개발에 집중할 수 있어요. 나중에 트래픽이 커지면 B 방향으로 마이그레이션도 가능합니다.
+  </p>
+</div>
+
+<p style="text-align:center;color:#9ca3af;font-size:0.85rem;margin-top:1.5rem;">클릭해서 선택 · 터미널에서 의견 주세요</p>

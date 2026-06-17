@@ -1,0 +1,99 @@
+<h2>전체 시스템 아키텍처</h2>
+<p class="subtitle">Instagram Place Mapper — 실제 서비스 구조</p>
+
+<div style="font-family:monospace;font-size:0.82rem;background:#0f172a;color:#e2e8f0;border-radius:12px;padding:1.5rem;line-height:2.2;overflow-x:auto;">
+
+  <div style="text-align:center;margin-bottom:1rem;">
+    <span style="color:#94a3b8;font-size:0.75rem;">[ 사용자 ]</span>
+  </div>
+
+  <div style="display:flex;justify-content:center;gap:3rem;margin-bottom:0.5rem;">
+    <div style="text-align:center;">
+      <div style="background:#6366f1;color:white;padding:6px 16px;border-radius:8px;font-size:0.85rem;">📱 Expo 앱</div>
+      <div style="color:#94a3b8;font-size:0.72rem;">React Native</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;color:#475569;margin:0.2rem 0;">│ HTTPS</div>
+
+  <div style="display:flex;justify-content:center;gap:2rem;margin-bottom:0.5rem;flex-wrap:wrap;">
+    <div style="text-align:center;">
+      <div style="background:#0ea5e9;color:white;padding:6px 16px;border-radius:8px;font-size:0.85rem;">⚙️ FastAPI</div>
+      <div style="color:#94a3b8;font-size:0.72rem;">Railway · REST API</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="background:#f59e0b;color:white;padding:6px 16px;border-radius:8px;font-size:0.85rem;">🔑 Firebase Auth</div>
+      <div style="color:#94a3b8;font-size:0.72rem;">소셜 로그인</div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:center;gap:4rem;color:#475569;margin:0.2rem 0;">
+    <span>│</span><span style="opacity:0;"> </span>
+  </div>
+
+  <div style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-bottom:0.5rem;">
+    <div style="text-align:center;">
+      <div style="background:#10b981;color:white;padding:6px 16px;border-radius:8px;font-size:0.85rem;">🗄️ PostgreSQL</div>
+      <div style="color:#94a3b8;font-size:0.72rem;">Railway · 메인 DB</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="background:#8b5cf6;color:white;padding:6px 16px;border-radius:8px;font-size:0.85rem;">🤖 Claude API</div>
+      <div style="color:#94a3b8;font-size:0.72rem;">게시물 요약</div>
+    </div>
+  </div>
+
+  <div style="border-top:1px dashed #334155;margin:1rem 0;"></div>
+  <div style="color:#64748b;font-size:0.75rem;text-align:center;margin-bottom:0.8rem;">— 크롤링 파이프라인 (주 2~3회 자동) —</div>
+
+  <div style="display:flex;justify-content:center;align-items:center;gap:1rem;flex-wrap:wrap;">
+    <div style="text-align:center;">
+      <div style="background:#ec4899;color:white;padding:6px 16px;border-radius:8px;font-size:0.85rem;">📸 Instagram</div>
+      <div style="color:#94a3b8;font-size:0.72rem;">Playwright 크롤링</div>
+    </div>
+    <div style="color:#475569;font-size:1.2rem;">→</div>
+    <div style="text-align:center;">
+      <div style="background:#8b5cf6;color:white;padding:6px 16px;border-radius:8px;font-size:0.85rem;">🤖 Claude API</div>
+      <div style="color:#94a3b8;font-size:0.72rem;">장소명·요약 추출</div>
+    </div>
+    <div style="color:#475569;font-size:1.2rem;">→</div>
+    <div style="text-align:center;">
+      <div style="background:#0ea5e9;color:white;padding:6px 16px;border-radius:8px;font-size:0.85rem;">🗺️ Kakao Map API</div>
+      <div style="color:#94a3b8;font-size:0.72rem;">좌표 변환</div>
+    </div>
+    <div style="color:#475569;font-size:1.2rem;">→</div>
+    <div style="text-align:center;">
+      <div style="background:#10b981;color:white;padding:6px 16px;border-radius:8px;font-size:0.85rem;">🗄️ PostgreSQL</div>
+      <div style="color:#94a3b8;font-size:0.72rem;">저장</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1rem;text-align:center;">
+    <span style="background:#1e293b;border:1px solid #334155;padding:4px 12px;border-radius:6px;color:#94a3b8;font-size:0.75rem;">⏰ Railway Cron — 주 2~3회 자동 트리거</span>
+  </div>
+</div>
+
+<div style="margin-top:1.5rem;">
+  <p class="label">핵심 데이터 흐름</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem;">
+    <div style="background:#f0fdf4;border-radius:8px;padding:1rem;border:1px solid #bbf7d0;">
+      <h3 style="color:#166534;font-size:0.9rem;margin:0 0 0.5rem;">📱 앱 → 서버</h3>
+      <ul style="color:#374151;font-size:0.82rem;margin:0;padding-left:1rem;line-height:1.8;">
+        <li>지역 검색 요청</li>
+        <li>카테고리 필터</li>
+        <li>북마크 저장/삭제</li>
+        <li>Firebase 토큰으로 인증</li>
+      </ul>
+    </div>
+    <div style="background:#eff6ff;border-radius:8px;padding:1rem;border:1px solid #bfdbfe;">
+      <h3 style="color:#1e40af;font-size:0.9rem;margin:0 0 0.5rem;">🗄️ DB 주요 테이블</h3>
+      <ul style="color:#374151;font-size:0.82rem;margin:0;padding-left:1rem;line-height:1.8;">
+        <li>places (장소 + 좌표)</li>
+        <li>users (Firebase uid 연결)</li>
+        <li>bookmarks (유저 × 장소)</li>
+        <li>crawl_logs (파이프라인 기록)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<p style="text-align:center;color:#9ca3af;font-size:0.85rem;margin-top:1.5rem;">이 구조 괜찮으면 터미널에서 "OK" 주세요 → 다음은 앱 화면 흐름</p>

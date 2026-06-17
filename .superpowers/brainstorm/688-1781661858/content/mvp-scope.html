@@ -1,0 +1,70 @@
+<h2>MVP 범위를 어떻게 나눌까요?</h2>
+<p class="subtitle">지금 당장 다 만들 수 있지만, 검증 속도와 출시 속도 사이의 균형이 중요합니다</p>
+
+<div class="section">
+  <p class="label">현재 상황</p>
+  <p style="color:#6b7280;font-size:0.9rem;margin-bottom:1.5rem;">
+    ✅ 백엔드 골격 있음 &nbsp;|&nbsp; ✅ UI 프로토타입 있음 &nbsp;|&nbsp;
+    ❌ 실제 지도 없음 (Leaflet 미사용) &nbsp;|&nbsp; ❌ 실제 데이터 없음 (목업 5개) &nbsp;|&nbsp; ❌ 인스타 파이프라인 없음
+  </p>
+</div>
+
+<div class="options" data-multiselect>
+  <div class="option" data-choice="phase1" onclick="toggleSelect(this)" style="border-left:4px solid #10b981;">
+    <div class="letter" style="background:#10b981;">1</div>
+    <div class="content">
+      <h3>Phase 1 — 핵심 검증 <span style="font-size:0.8rem;color:#10b981;">(4~6주)</span></h3>
+      <ul style="color:#6b7280;font-size:0.9rem;margin:0;padding-left:1.2rem;line-height:1.8;">
+        <li>React Native + Expo 앱 세팅</li>
+        <li><strong>진짜 지도</strong> — react-native-maps + 실제 핀</li>
+        <li><strong>인스타 크롤링 파이프라인</strong> — 해시태그 기반 수집 + Claude API로 요약</li>
+        <li>지역 검색 + 장소 상세 페이지</li>
+        <li>PostgreSQL로 DB 교체 (SQLite 탈출)</li>
+      </ul>
+      <p style="margin-top:0.8rem;font-size:0.85rem;color:#059669;font-weight:600;">
+        → 이것만으로도 "인스타 핫플 지도 앱"의 핵심 가치 검증 가능
+      </p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="phase2" onclick="toggleSelect(this)" style="border-left:4px solid #6366f1;">
+    <div class="letter" style="background:#6366f1;">2</div>
+    <div class="content">
+      <h3>Phase 2 — 리텐션 <span style="font-size:0.8rem;color:#6366f1;">(+3~4주)</span></h3>
+      <ul style="color:#6b7280;font-size:0.9rem;margin:0;padding-left:1.2rem;line-height:1.8;">
+        <li><strong>피드 뷰</strong> — 인스타 카드 스크롤 탐색</li>
+        <li><strong>카테고리 필터</strong> — 카페/맛집/술집/기타</li>
+        <li>국내/해외 탭 분리</li>
+        <li>최근 본 장소 히스토리</li>
+      </ul>
+      <p style="margin-top:0.8rem;font-size:0.85rem;color:#4338ca;font-weight:600;">
+        → 재방문율과 탐색 깊이를 높임
+      </p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="phase3" onclick="toggleSelect(this)" style="border-left:4px solid #f59e0b;">
+    <div class="letter" style="background:#f59e0b;">3</div>
+    <div class="content">
+      <h3>Phase 3 — 개인화 <span style="font-size:0.8rem;color:#f59e0b;">(+3~4주)</span></h3>
+      <ul style="color:#6b7280;font-size:0.9rem;margin:0;padding-left:1.2rem;line-height:1.8;">
+        <li><strong>북마크/저장</strong> — 소셜 로그인 필요</li>
+        <li>내 리스트 관리</li>
+        <li>장소 공유 기능</li>
+        <li>알림 — 내 동네 새 핫플 등록 시</li>
+      </ul>
+      <p style="margin-top:0.8rem;font-size:0.85rem;color:#d97706;font-weight:600;">
+        → 유저 계정이 필요해서 인증 시스템 추가됨
+      </p>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:2rem;padding:1rem;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;">
+  <p style="margin:0;font-size:0.9rem;color:#374151;">
+    <strong>💡 제안:</strong> Phase 1만 먼저 완성해서 주변 10명에게 써보게 하는 게 제일 빠른 검증이에요.<br>
+    "이 앱 또 쓰고 싶다"는 반응이 나오면 Phase 2+3 진행, 아니면 피벗.
+  </p>
+</div>
+
+<p style="text-align:center;color:#9ca3af;font-size:0.85rem;margin-top:1.5rem;">여러 개 선택 가능 · 터미널에서 의견 주세요</p>

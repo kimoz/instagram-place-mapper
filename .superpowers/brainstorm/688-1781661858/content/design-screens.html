@@ -1,0 +1,167 @@
+<h2>앱 화면 구조</h2>
+<p class="subtitle">하단 탭 4개 기반 네비게이션</p>
+
+<div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;margin-bottom:1.5rem;">
+
+  <!-- Map Screen -->
+  <div style="width:160px;flex-shrink:0;">
+    <div style="background:#1a1a2e;border-radius:20px;padding:10px;height:300px;position:relative;overflow:hidden;border:2px solid #6366f1;">
+      <!-- map bg -->
+      <div style="background:#2d3748;border-radius:12px;height:200px;position:relative;overflow:hidden;">
+        <!-- grid lines -->
+        <div style="position:absolute;inset:0;opacity:0.15;" style="background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:20px 20px;"></div>
+        <!-- fake roads -->
+        <div style="position:absolute;top:50%;left:0;right:0;height:2px;background:#4a5568;transform:rotate(-10deg);"></div>
+        <div style="position:absolute;top:30%;left:0;right:0;height:2px;background:#4a5568;transform:rotate(5deg);"></div>
+        <div style="position:absolute;left:40%;top:0;bottom:0;width:2px;background:#4a5568;"></div>
+        <!-- pins -->
+        <div style="position:absolute;top:35%;left:30%;">
+          <div style="background:#ff3366;color:white;font-size:7px;padding:2px 4px;border-radius:4px;white-space:nowrap;">어니언</div>
+          <div style="width:8px;height:8px;background:#ff3366;border-radius:50%;margin:0 auto;"></div>
+        </div>
+        <div style="position:absolute;top:55%;left:60%;">
+          <div style="background:#ff3366;color:white;font-size:7px;padding:2px 4px;border-radius:4px;white-space:nowrap;">성수감자탕</div>
+          <div style="width:8px;height:8px;background:#ff3366;border-radius:50%;margin:0 auto;"></div>
+        </div>
+        <!-- search bar -->
+        <div style="position:absolute;top:8px;left:8px;right:8px;background:white;border-radius:8px;padding:4px 8px;display:flex;align-items:center;gap:4px;">
+          <span style="color:#9ca3af;font-size:8px;">🔍 성수동</span>
+        </div>
+        <!-- filter chips -->
+        <div style="position:absolute;bottom:8px;left:8px;display:flex;gap:4px;">
+          <span style="background:#6366f1;color:white;font-size:6px;padding:2px 5px;border-radius:10px;">전체</span>
+          <span style="background:white;color:#374151;font-size:6px;padding:2px 5px;border-radius:10px;">카페</span>
+          <span style="background:white;color:#374151;font-size:6px;padding:2px 5px;border-radius:10px;">맛집</span>
+        </div>
+      </div>
+      <!-- bottom tab -->
+      <div style="display:flex;justify-content:space-around;margin-top:8px;padding:4px 0;">
+        <div style="text-align:center;"><div style="font-size:12px;">🗺️</div><div style="font-size:6px;color:#6366f1;">지도</div></div>
+        <div style="text-align:center;"><div style="font-size:12px;">📸</div><div style="font-size:6px;color:#9ca3af;">피드</div></div>
+        <div style="text-align:center;"><div style="font-size:12px;">🔖</div><div style="font-size:6px;color:#9ca3af;">저장</div></div>
+        <div style="text-align:center;"><div style="font-size:12px;">👤</div><div style="font-size:6px;color:#9ca3af;">프로필</div></div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:0.8rem;font-weight:600;margin-top:6px;color:#6366f1;">🗺️ 지도 탭</p>
+    <p style="text-align:center;font-size:0.72rem;color:#6b7280;">검색+필터+핀</p>
+  </div>
+
+  <!-- Feed Screen -->
+  <div style="width:160px;flex-shrink:0;">
+    <div style="background:#1a1a2e;border-radius:20px;padding:10px;height:300px;position:relative;overflow:hidden;border:2px solid #ec4899;">
+      <div style="color:white;font-size:9px;font-weight:600;margin-bottom:6px;display:flex;justify-content:space-between;">
+        <span>🔥 핫플 피드</span>
+        <span style="color:#9ca3af;font-size:7px;">국내 ▾</span>
+      </div>
+      <!-- card 1 -->
+      <div style="background:#2d3748;border-radius:10px;padding:8px;margin-bottom:6px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <div style="width:24px;height:24px;background:linear-gradient(135deg,#ff3366,#ff9966);border-radius:6px;"></div>
+          <div>
+            <div style="color:white;font-size:7px;font-weight:600;">어니언 성수</div>
+            <div style="color:#9ca3af;font-size:6px;">🗺️ 성동구</div>
+          </div>
+          <div style="margin-left:auto;background:#ff3366;color:white;font-size:6px;padding:1px 4px;border-radius:4px;">카페</div>
+        </div>
+        <div style="color:#d1d5db;font-size:6.5px;line-height:1.5;">"인더스트리얼 감성의 폐공장 카페, 팡도르가 가장 인기..."</div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+          <span style="color:#fbbf24;font-size:6px;">⭐ 8,900+ 리뷰</span>
+          <span style="color:#9ca3af;font-size:6px;">🔖</span>
+        </div>
+      </div>
+      <!-- card 2 -->
+      <div style="background:#2d3748;border-radius:10px;padding:8px;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+          <div style="width:24px;height:24px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:6px;"></div>
+          <div>
+            <div style="color:white;font-size:7px;font-weight:600;">쿠시카츠 다루마</div>
+            <div style="color:#9ca3af;font-size:6px;">✈️ 오사카</div>
+          </div>
+          <div style="margin-left:auto;background:#0ea5e9;color:white;font-size:6px;padding:1px 4px;border-radius:4px;">해외</div>
+        </div>
+        <div style="color:#d1d5db;font-size:6.5px;line-height:1.5;">"오사카 필수 코스! 바삭한 쿠시카츠..."</div>
+      </div>
+      <!-- bottom tab -->
+      <div style="position:absolute;bottom:10px;left:10px;right:10px;display:flex;justify-content:space-around;">
+        <div style="text-align:center;"><div style="font-size:12px;">🗺️</div><div style="font-size:6px;color:#9ca3af;">지도</div></div>
+        <div style="text-align:center;"><div style="font-size:12px;">📸</div><div style="font-size:6px;color:#ec4899;">피드</div></div>
+        <div style="text-align:center;"><div style="font-size:12px;">🔖</div><div style="font-size:6px;color:#9ca3af;">저장</div></div>
+        <div style="text-align:center;"><div style="font-size:12px;">👤</div><div style="font-size:6px;color:#9ca3af;">프로필</div></div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:0.8rem;font-weight:600;margin-top:6px;color:#ec4899;">📸 피드 탭</p>
+    <p style="text-align:center;font-size:0.72rem;color:#6b7280;">카드 스크롤 탐색</p>
+  </div>
+
+  <!-- Detail Screen -->
+  <div style="width:160px;flex-shrink:0;">
+    <div style="background:#1a1a2e;border-radius:20px;padding:10px;height:300px;position:relative;overflow:hidden;border:2px solid #10b981;">
+      <div style="color:#9ca3af;font-size:7px;margin-bottom:4px;">← 뒤로</div>
+      <div style="background:linear-gradient(135deg,#ff3366,#ff9966);border-radius:10px;height:70px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
+        <span style="font-size:24px;">🍞</span>
+      </div>
+      <div style="color:white;font-size:9px;font-weight:700;">어니언 성수</div>
+      <div style="color:#9ca3af;font-size:7px;margin-bottom:6px;">🗺️ 서울 성동구 아차산로9길 8</div>
+      <div style="display:flex;gap:4px;margin-bottom:6px;">
+        <span style="background:#374151;color:#d1d5db;font-size:6px;padding:2px 5px;border-radius:4px;">카페</span>
+        <span style="background:#374151;color:#fbbf24;font-size:6px;padding:2px 5px;border-radius:4px;">⭐ 8,900+</span>
+        <span style="background:#374151;color:#6366f1;font-size:6px;padding:2px 5px;border-radius:4px;">Naver</span>
+      </div>
+      <div style="background:#1e293b;border-radius:8px;padding:6px;margin-bottom:6px;">
+        <div style="color:#f472b6;font-size:6px;font-weight:600;margin-bottom:2px;">📸 인스타 요약</div>
+        <div style="color:#d1d5db;font-size:6px;line-height:1.5;">"인더스트리얼 감성의 폐공장 카페, 팡도르 필수..."</div>
+      </div>
+      <div style="display:flex;gap:4px;">
+        <div style="flex:1;background:#6366f1;border-radius:6px;padding:4px;text-align:center;font-size:6px;color:white;">지도 앱 열기</div>
+        <div style="background:#374151;border-radius:6px;padding:4px;text-align:center;font-size:6px;color:white;">🔖</div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:0.8rem;font-weight:600;margin-top:6px;color:#10b981;">📍 장소 상세</p>
+    <p style="text-align:center;font-size:0.72rem;color:#6b7280;">요약+주소+북마크</p>
+  </div>
+
+  <!-- Bookmarks Screen -->
+  <div style="width:160px;flex-shrink:0;">
+    <div style="background:#1a1a2e;border-radius:20px;padding:10px;height:300px;position:relative;overflow:hidden;border:2px solid #f59e0b;">
+      <div style="color:white;font-size:9px;font-weight:600;margin-bottom:8px;">🔖 저장한 장소</div>
+      <div style="display:flex;flex-direction:column;gap:5px;">
+        <div style="background:#2d3748;border-radius:8px;padding:6px;display:flex;align-items:center;gap:6px;">
+          <div style="width:20px;height:20px;background:linear-gradient(135deg,#ff3366,#ff9966);border-radius:5px;"></div>
+          <div><div style="color:white;font-size:7px;">어니언 성수</div><div style="color:#9ca3af;font-size:6px;">성동구</div></div>
+          <span style="margin-left:auto;color:#fbbf24;font-size:8px;">★</span>
+        </div>
+        <div style="background:#2d3748;border-radius:8px;padding:6px;display:flex;align-items:center;gap:6px;">
+          <div style="width:20px;height:20px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:5px;"></div>
+          <div><div style="color:white;font-size:7px;">쿠시카츠 다루마</div><div style="color:#9ca3af;font-size:6px;">오사카</div></div>
+          <span style="margin-left:auto;color:#fbbf24;font-size:8px;">★</span>
+        </div>
+        <div style="background:#2d3748;border-radius:8px;padding:6px;display:flex;align-items:center;gap:6px;">
+          <div style="width:20px;height:20px;background:linear-gradient(135deg,#10b981,#0ea5e9);border-radius:5px;"></div>
+          <div><div style="color:white;font-size:7px;">이치란 도톤보리</div><div style="color:#9ca3af;font-size:6px;">오사카</div></div>
+          <span style="margin-left:auto;color:#fbbf24;font-size:8px;">★</span>
+        </div>
+      </div>
+      <!-- bottom tab -->
+      <div style="position:absolute;bottom:10px;left:10px;right:10px;display:flex;justify-content:space-around;">
+        <div style="text-align:center;"><div style="font-size:12px;">🗺️</div><div style="font-size:6px;color:#9ca3af;">지도</div></div>
+        <div style="text-align:center;"><div style="font-size:12px;">📸</div><div style="font-size:6px;color:#9ca3af;">피드</div></div>
+        <div style="text-align:center;"><div style="font-size:12px;">🔖</div><div style="font-size:6px;color:#f59e0b;">저장</div></div>
+        <div style="text-align:center;"><div style="font-size:12px;">👤</div><div style="font-size:6px;color:#9ca3af;">프로필</div></div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:0.8rem;font-weight:600;margin-top:6px;color:#f59e0b;">🔖 저장 탭</p>
+    <p style="text-align:center;font-size:0.72rem;color:#6b7280;">북마크 리스트</p>
+  </div>
+
+</div>
+
+<div style="background:#f8fafc;border-radius:10px;padding:1rem;border:1px solid #e2e8f0;margin-top:0.5rem;">
+  <p class="label">화면 전환 흐름</p>
+  <div style="font-size:0.85rem;color:#374151;line-height:2;margin-top:0.5rem;">
+    지도 탭 → 핀 클릭 → <strong>장소 상세</strong> → 🔖 북마크 → 저장 탭에서 확인<br>
+    피드 탭 → 카드 탭 → <strong>장소 상세</strong> → 지도 앱 열기 (카카오맵/구글맵)<br>
+    저장 탭 → 장소 탭 → <strong>장소 상세</strong> → 지도에서 보기
+  </div>
+</div>
+
+<p style="text-align:center;color:#9ca3af;font-size:0.85rem;margin-top:1.5rem;">이 화면 구성 괜찮으면 "OK" → 다음은 DB 스키마 + API 설계</p>

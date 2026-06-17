@@ -1,12 +1,7 @@
-fastapi
-uvicorn[standard]
-pydantic
-sqlalchemy
-psycopg2-binary
-anthropic
-googlemaps
-playwright
-python-dotenv
-pytest
-pytest-mock
-httpx
+fastapi>=0.100,<1
+uvicorn[standard]>=0.20,<1
+pydantic>=2.0,<3
+sqlalchemy>=2.0,<3
+psycopg2-binary>=2.9,<3  # binary OK for Railway containers
+python-dotenv>=1.0,<2
+httpx>=0.24,<1

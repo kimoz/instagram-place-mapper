@@ -41,7 +41,13 @@ def _upsert_place(db, extraction, geo, post: RawPost) -> bool:
     return True
 
 
+def _default_hashtags() -> List[str]:
+    raw = os.environ.get("CRAWL_HASHTAGS", "맛집,카페,맛스타그램")
+    return [h.strip() for h in raw.split(",") if h.strip()]
+
+
 def run_pipeline(hashtags: Optional[List[str]] = None) -> dict:
+    resolved_hashtags = hashtags or _default_hashtags()
     db = SessionLocal()
     log = models.CrawlLog(started_at=datetime.now(timezone.utc))
     db.add(log)
@@ -51,7 +57,7 @@ def run_pipeline(hashtags: Optional[List[str]] = None) -> dict:
     error_msg = None
 
     try:
-        posts = crawl_hashtags(hashtags)
+        posts = crawl_hashtags(resolved_hashtags)
         for post in posts:
             extraction = extract_place_from_caption(post.caption)
             if not extraction:

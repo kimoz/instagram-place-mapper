@@ -1,30 +1,70 @@
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
+import {
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithCredential,
+  signOut,
+  User,
+} from 'firebase/auth';
+import { auth } from '../../services/firebase';
 
-interface MockUser {
-  displayName: string;
-  email: string;
-}
+WebBrowser.maybeCompleteAuthSession();
+
+const GOOGLE_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID ?? '';
+const GOOGLE_IOS_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID ?? '';
 
 export default function ProfileScreen() {
-  const [user, setUser] = useState<MockUser | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const handleGoogleLogin = async () => {
-    setLoading(true);
-    try {
-      Alert.alert(
-        '구글 로그인',
-        'Firebase Auth 연동 필요\n\n설정 방법:\n1. Firebase Console에서 프로젝트 생성\n2. Google 로그인 사용 설정\n3. google-services.json 배치\n4. @react-native-firebase/auth 설치'
-      );
-    } finally {
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    clientId: GOOGLE_CLIENT_ID,
+    iosClientId: GOOGLE_IOS_CLIENT_ID,
+  });
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+      setUser(u);
       setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token);
+      signInWithCredential(auth, credential).catch((err) => {
+        Alert.alert('로그인 실패', err.message);
+      });
     }
+  }, [response]);
+
+  const handleLogin = () => {
+    if (!GOOGLE_CLIENT_ID) {
+      Alert.alert(
+        'Firebase 설정 필요',
+        'EXPO_PUBLIC_GOOGLE_CLIENT_ID 환경변수를 설정해주세요.\n\nREADME.md > Firebase Auth 연동 참고'
+      );
+      return;
+    }
+    promptAsync();
   };
 
   const handleLogout = () => {
-    setUser(null);
+    signOut(auth).catch((err) => Alert.alert('로그아웃 실패', err.message));
   };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#6366f1" />
+      </View>
+    );
+  }
 
   if (!user) {
     return (
@@ -33,15 +73,12 @@ export default function ProfileScreen() {
           로그인하면 장소를{'\n'}어디서든 저장할 수 있어요
         </Text>
         <TouchableOpacity
-          style={styles.googleBtn}
-          onPress={handleGoogleLogin}
-          disabled={loading}
+          style={[styles.googleBtn, !request && styles.googleBtnDisabled]}
+          onPress={handleLogin}
+          disabled={!request}
         >
-          <Text style={styles.googleBtnText}>
-            {loading ? '로그인 중...' : '🔑 구글로 로그인'}
-          </Text>
+          <Text style={styles.googleBtnText}>🔑 구글로 로그인</Text>
         </TouchableOpacity>
-        <Text style={styles.note}>Firebase Auth 설정 후 활성화됩니다</Text>
       </View>
     );
   }
@@ -49,9 +86,11 @@ export default function ProfileScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.avatar}>
-        <Text style={styles.avatarText}>{user.displayName[0]}</Text>
+        <Text style={styles.avatarText}>
+          {user.displayName ? user.displayName[0].toUpperCase() : '?'}
+        </Text>
       </View>
-      <Text style={styles.name}>{user.displayName}</Text>
+      <Text style={styles.name}>{user.displayName ?? '사용자'}</Text>
       <Text style={styles.email}>{user.email}</Text>
       <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
         <Text style={styles.logoutBtnText}>로그아웃</Text>
@@ -81,10 +120,9 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 28,
     paddingVertical: 14,
-    marginBottom: 12,
   },
+  googleBtnDisabled: { opacity: 0.5 },
   googleBtnText: { color: 'white', fontSize: 15, fontWeight: '700' },
-  note: { fontSize: 12, color: '#9ca3af', textAlign: 'center' },
   avatar: {
     width: 72,
     height: 72,

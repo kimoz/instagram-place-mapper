@@ -1,9 +1,35 @@
+# 환경변수 (절대 커밋 금지)
 .env
 *.env
+!.env.example
+!**/.env.example
+
+# Python
 __pycache__/
 *.pyc
 *.pyo
+*.db
+
+# Node / Expo
 node_modules/
 mobile/node_modules/
-mobile/.env
-.superpowers/
+mobile/.expo/
+mobile/dist/
+mobile/.expo-shared/
+
+# EAS / 앱스토어 배포 크리덴셜
+mobile/android-service-account.json
+mobile/*.jks
+mobile/*.keystore
+*.p8
+*.p12
+*.mobileprovision
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

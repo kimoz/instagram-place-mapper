@@ -7,7 +7,8 @@ router = APIRouter(prefix="/api/admin", tags=["admin"])
 
 
 def _verify_admin(x_admin_secret: str = Header(None)):
-    if x_admin_secret != os.environ.get("ADMIN_SECRET"):
+    expected = os.environ.get("ADMIN_SECRET")
+    if not expected or x_admin_secret != expected:
         raise HTTPException(status_code=403, detail="Forbidden")
 
 
@@ -21,7 +22,7 @@ def trigger_pipeline(x_admin_secret: str = Header(None)):
     def _run():
         result_holder.update(run_pipeline())
 
-    t = threading.Thread(target=_run, daemon=True)
+    t = threading.Thread(target=_run, daemon=False)
     t.start()
     return {"message": "Pipeline started in background"}
 

@@ -4,4 +4,6 @@ __pycache__/
 *.pyc
 *.pyo
 node_modules/
+mobile/node_modules/
+mobile/.env
 .superpowers/

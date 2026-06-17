@@ -1,0 +1,34 @@
+{
+  "expo": {
+    "name": "Instagram Place Mapper",
+    "slug": "instagram-place-mapper",
+    "version": "1.0.0",
+    "scheme": "placemapper",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "web": { "bundler": "metro" },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      [
+        "react-native-maps",
+        { "googleMapsApiKey": "YOUR_GOOGLE_MAPS_API_KEY" }
+      ]
+    ],
+    "android": {
+      "package": "com.placemapper.app",
+      "config": {
+        "googleMaps": { "apiKey": "YOUR_GOOGLE_MAPS_API_KEY" }
+      },
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.placemapper.app",
+      "supportsTablet": true
+    }
+  }
+}

@@ -64,6 +64,7 @@ def run_pipeline(hashtags: Optional[List[str]] = None) -> dict:
         log.status = "success"
         log.places_added = places_added
     except Exception as e:
+        db.rollback()
         log.status = "failed"
         log.error_message = str(e)
         error_msg = str(e)

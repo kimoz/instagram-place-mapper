@@ -38,7 +38,7 @@ def extract_place_from_caption(caption: str) -> Optional[PlaceExtraction]:
             max_tokens=512,
             messages=[{"role": "user", "content": PROMPT_TEMPLATE.format(caption=caption[:1500])}],
         )
-    except anthropic.APIError:
+    except Exception:
         return None
     if not response.content:
         return None

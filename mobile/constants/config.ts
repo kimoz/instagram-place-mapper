@@ -6,5 +6,5 @@ export const CATEGORIES = ['전체', '카페', '맛집', '술집', '기타'] as 
 export const COUNTRIES = [
   { label: '전체', value: '' },
   { label: '🇰🇷 국내', value: 'KR' },
-  { label: '✈️ 해외', value: '' },
+  { label: '✈️ 해외', value: 'OS' },
 ] as const;

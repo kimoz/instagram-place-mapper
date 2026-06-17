@@ -13,7 +13,10 @@ class GeoResult:
 
 
 def geocode_place(restaurant_name: str, region: str) -> Optional[GeoResult]:
-    client = googlemaps.Client(key=os.environ["GOOGLE_PLACES_API_KEY"])
+    api_key = os.environ.get("GOOGLE_PLACES_API_KEY")
+    if not api_key:
+        return None
+    client = googlemaps.Client(key=api_key)
     query = f"{restaurant_name} {region}"
     try:
         response = client.places(query=query, language="ko")
@@ -25,7 +28,7 @@ def geocode_place(restaurant_name: str, region: str) -> Optional[GeoResult]:
     top = results[0]
     geometry = top.get("geometry", {})
     location = geometry.get("location", {})
-    if not location.get("lat") or not location.get("lng"):
+    if location.get("lat") is None or location.get("lng") is None:
         return None
     return GeoResult(
         address=top.get("formatted_address", ""),

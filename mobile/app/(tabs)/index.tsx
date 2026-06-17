@@ -53,11 +53,15 @@ export default function MapScreen() {
     router.push(`/place/${place.id}`);
   };
 
+  const mappablePlaces = places.filter(
+    (p) => p.map_data.lat != null && p.map_data.lng != null
+  );
+
   const mapRegion: Region =
-    places.length > 0
+    mappablePlaces.length > 0
       ? {
-          latitude: places[0].map_data.lat,
-          longitude: places[0].map_data.lng,
+          latitude: mappablePlaces[0].map_data.lat,
+          longitude: mappablePlaces[0].map_data.lng,
           latitudeDelta: 0.03,
           longitudeDelta: 0.03,
         }
@@ -108,7 +112,7 @@ export default function MapScreen() {
           style={StyleSheet.absoluteFill}
           region={mapRegion}
         >
-          {places.map((place) => (
+          {mappablePlaces.map((place) => (
             <Marker
               key={place.id}
               coordinate={{

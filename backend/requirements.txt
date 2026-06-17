@@ -1,4 +1,12 @@
 fastapi
-uvicorn
+uvicorn[standard]
 pydantic
 sqlalchemy
+psycopg2-binary
+anthropic
+googlemaps
+playwright
+python-dotenv
+pytest
+pytest-mock
+httpx

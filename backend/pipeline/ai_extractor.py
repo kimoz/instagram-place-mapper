@@ -1,5 +1,4 @@
 import json
-import os
 from dataclasses import dataclass
 from typing import Optional
 import anthropic
@@ -32,12 +31,17 @@ class PlaceExtraction:
 
 
 def extract_place_from_caption(caption: str) -> Optional[PlaceExtraction]:
-    client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
-        max_tokens=512,
-        messages=[{"role": "user", "content": PROMPT_TEMPLATE.format(caption=caption[:1500])}],
-    )
+    try:
+        client = anthropic.Anthropic()  # reads ANTHROPIC_API_KEY from environment automatically
+        response = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=512,
+            messages=[{"role": "user", "content": PROMPT_TEMPLATE.format(caption=caption[:1500])}],
+        )
+    except anthropic.APIError:
+        return None
+    if not response.content:
+        return None
     raw = response.content[0].text.strip()
     if raw == "null":
         return None

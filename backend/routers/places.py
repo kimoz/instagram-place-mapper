@@ -1,17 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from database import SessionLocal
+from dependencies import get_db
 import models
 
 router = APIRouter(prefix="/api/places", tags=["places"])
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 def _place_to_dict(p: models.Place) -> dict:

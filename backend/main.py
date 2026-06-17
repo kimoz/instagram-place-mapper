@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
 import models
 from routers.places import router as places_router
-from routers.places import get_db  # noqa: F401 — exposed for test dependency override
+from dependencies import get_db  # noqa: F401 — exposed for test dependency override
 
 Base.metadata.create_all(bind=engine)
 

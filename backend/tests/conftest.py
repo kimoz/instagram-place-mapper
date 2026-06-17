@@ -1,7 +1,7 @@
 import os
 
 # Set DATABASE_URL to SQLite BEFORE any app imports to prevent Postgres connection at import time
-SQLITE_TEST_URL = "sqlite:///./test.db"
+SQLITE_TEST_URL = "sqlite:///:memory:"
 os.environ["DATABASE_URL"] = SQLITE_TEST_URL
 
 import pytest
@@ -9,11 +9,17 @@ import uuid
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.pool import StaticPool
 from database import Base
-from main import app, get_db
+from main import app
+from dependencies import get_db
 import models
 
-engine_test = create_engine(SQLITE_TEST_URL, connect_args={"check_same_thread": False})
+engine_test = create_engine(
+    SQLITE_TEST_URL,
+    connect_args={"check_same_thread": False},
+    poolclass=StaticPool,
+)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine_test)
 
 

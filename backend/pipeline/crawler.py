@@ -34,6 +34,7 @@ def _scrape_hashtag(page: Page, tag: str, max_posts: int = 20) -> List[RawPost]:
     links = page.query_selector_all("article a")
     post_urls = list({a.get_attribute("href") for a in links if a.get_attribute("href")})[:max_posts]
 
+    failed = 0
     for href in post_urls:
         try:
             page.goto(f"https://www.instagram.com{href}")
@@ -49,7 +50,10 @@ def _scrape_hashtag(page: Page, tag: str, max_posts: int = 20) -> List[RawPost]:
                     post_url=f"https://www.instagram.com{href}",
                 ))
         except Exception:
+            failed += 1
             continue
+    if failed:
+        print(f"[crawler] #{tag}: {len(posts)} posts collected, {failed} errors")
     return posts
 
 

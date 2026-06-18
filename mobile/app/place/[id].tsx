@@ -100,6 +100,15 @@ export default function PlaceDetailScreen() {
           </Text>
         </TouchableOpacity>
       </View>
+
+      {place.instagram_url && (
+        <TouchableOpacity
+          style={styles.instaBtn}
+          onPress={() => Linking.openURL(place.instagram_url!).catch(() => Alert.alert('링크를 열 수 없어요'))}
+        >
+          <Text style={styles.instaBtnText}>📸 인스타그램 원본 보기</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 }
@@ -172,4 +181,13 @@ const styles = StyleSheet.create({
   },
   bookmarkBtnActive: { backgroundColor: '#e0e7ff' },
   bookmarkBtnText: { fontWeight: '600', fontSize: 14, color: '#374151' },
+  instaBtn: {
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 10,
+    padding: 14,
+    alignItems: 'center',
+  },
+  instaBtnText: { fontSize: 14, fontWeight: '600', color: '#6b7280' },
 });

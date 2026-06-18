@@ -74,7 +74,7 @@ def test_trending_excludes_old_places(client, db):
         region="강남",
         country="KR",
         category="카페",
-        crawled_at=datetime.now(timezone.utc) - timedelta(days=10),
+        crawled_at=datetime.now(timezone.utc) - timedelta(days=35),
     )
     db.add(old)
     db.commit()

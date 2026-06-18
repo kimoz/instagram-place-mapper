@@ -51,7 +51,7 @@ def search_places(
 @router.get("/trending")
 def trending_places(db: Session = Depends(get_db)):
     from datetime import datetime, timedelta, timezone
-    since = datetime.now(timezone.utc) - timedelta(days=7)
+    since = datetime.now(timezone.utc) - timedelta(days=30)
     places = (
         db.query(models.Place)
         .filter(models.Place.crawled_at >= since)

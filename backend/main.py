@@ -1,7 +1,4 @@
 import os
-import gcp_auth
-gcp_auth.setup()  # GCP 서비스 계정 JSON → credentials 파일 변환 (Railway용)
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base

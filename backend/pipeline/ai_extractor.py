@@ -1,5 +1,4 @@
 import json
-import os
 from dataclasses import dataclass
 from typing import Optional
 import anthropic
@@ -21,11 +20,6 @@ PROMPT_TEMPLATE = """아래 인스타그램 게시물 캡션에서 맛집/카페
 
 장소 정보 없으면: null"""
 
-# Vertex AI 기본값
-_VERTEX_REGION = os.environ.get("VERTEX_REGION", "us-east5")
-_VERTEX_PROJECT = os.environ.get("GOOGLE_CLOUD_PROJECT", "")
-_VERTEX_MODEL = os.environ.get("VERTEX_MODEL", "claude-haiku-4-5@20251001")
-
 
 @dataclass
 class PlaceExtraction:
@@ -36,19 +30,11 @@ class PlaceExtraction:
     summary: str
 
 
-def _make_client():
-    if _VERTEX_PROJECT:
-        return anthropic.AnthropicVertex(region=_VERTEX_REGION, project_id=_VERTEX_PROJECT)
-    # 로컬 개발 폴백: ANTHROPIC_API_KEY 사용
-    return anthropic.Anthropic()
-
-
 def extract_place_from_caption(caption: str) -> Optional[PlaceExtraction]:
-    model = _VERTEX_MODEL if _VERTEX_PROJECT else "claude-haiku-4-5-20251001"
     try:
-        client = _make_client()
+        client = anthropic.Anthropic()  # ANTHROPIC_API_KEY 환경변수 자동 읽음
         response = client.messages.create(
-            model=model,
+            model="claude-haiku-4-5-20251001",
             max_tokens=512,
             messages=[{"role": "user", "content": PROMPT_TEMPLATE.format(caption=caption[:1500])}],
         )

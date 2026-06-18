@@ -12,7 +12,8 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Instagram Place Mapper API")
 
 ALLOWED_ORIGINS = os.getenv(
-    "ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000"
+    "ALLOWED_ORIGINS",
+    "http://localhost:8081,http://localhost:5173,http://localhost:3000",
 ).split(",")
 
 app.add_middleware(

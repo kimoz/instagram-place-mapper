@@ -9,7 +9,7 @@ import {
   signOut,
   User,
 } from 'firebase/auth';
-import { auth } from '../../services/firebase';
+import { auth, isFirebaseConfigured } from '../../services/firebase';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -18,7 +18,7 @@ const GOOGLE_IOS_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID ?? '';
 
 export default function ProfileScreen() {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(isFirebaseConfigured);
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     clientId: GOOGLE_CLIENT_ID,
@@ -26,6 +26,7 @@ export default function ProfileScreen() {
   });
 
   useEffect(() => {
+    if (!auth) return;
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
@@ -34,20 +35,19 @@ export default function ProfileScreen() {
   }, []);
 
   useEffect(() => {
-    if (response?.type === 'success') {
-      const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token);
-      signInWithCredential(auth, credential).catch((err) => {
-        Alert.alert('로그인 실패', err.message);
-      });
-    }
+    if (response?.type !== 'success' || !auth) return;
+    const { id_token } = response.params;
+    const credential = GoogleAuthProvider.credential(id_token);
+    signInWithCredential(auth, credential).catch((err) => {
+      Alert.alert('로그인 실패', err.message);
+    });
   }, [response]);
 
   const handleLogin = () => {
-    if (!GOOGLE_CLIENT_ID) {
+    if (!isFirebaseConfigured) {
       Alert.alert(
         'Firebase 설정 필요',
-        'EXPO_PUBLIC_GOOGLE_CLIENT_ID 환경변수를 설정해주세요.\n\nREADME.md > Firebase Auth 연동 참고'
+        'mobile/.env 파일에 EXPO_PUBLIC_FIREBASE_API_KEY 등 Firebase 환경변수를 설정해주세요.\n\nREADME.md > Firebase Auth 연동 참고'
       );
       return;
     }
@@ -55,6 +55,7 @@ export default function ProfileScreen() {
   };
 
   const handleLogout = () => {
+    if (!auth) return;
     signOut(auth).catch((err) => Alert.alert('로그아웃 실패', err.message));
   };
 
@@ -69,16 +70,16 @@ export default function ProfileScreen() {
   if (!user) {
     return (
       <View style={styles.container}>
+        <Text style={styles.icon}>👤</Text>
         <Text style={styles.title}>
           로그인하면 장소를{'\n'}어디서든 저장할 수 있어요
         </Text>
-        <TouchableOpacity
-          style={[styles.googleBtn, !request && styles.googleBtnDisabled]}
-          onPress={handleLogin}
-          disabled={!request}
-        >
+        <TouchableOpacity style={styles.googleBtn} onPress={handleLogin}>
           <Text style={styles.googleBtnText}>🔑 구글로 로그인</Text>
         </TouchableOpacity>
+        {!isFirebaseConfigured && (
+          <Text style={styles.note}>Firebase 설정 후 활성화됩니다</Text>
+        )}
       </View>
     );
   }
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     padding: 32,
     backgroundColor: '#fff',
   },
+  icon: { fontSize: 64, marginBottom: 16 },
   title: {
     fontSize: 20,
     fontWeight: '700',
@@ -120,9 +122,10 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     paddingHorizontal: 28,
     paddingVertical: 14,
+    marginBottom: 12,
   },
-  googleBtnDisabled: { opacity: 0.5 },
   googleBtnText: { color: 'white', fontSize: 15, fontWeight: '700' },
+  note: { fontSize: 12, color: '#9ca3af', textAlign: 'center' },
   avatar: {
     width: 72,
     height: 72,
